@@ -37,6 +37,7 @@ export default function FirebaseRegisterView() {
   const RegisterSchema = Yup.object().shape({
     firstName: Yup.string().required('First name required'),
     lastName: Yup.string().required('Last name required'),
+    username: Yup.string().required('Username required'),
     email: Yup.string().required('Email is required').email('Email must be a valid email address'),
     password: Yup.string().required('Password is required'),
   });
@@ -46,6 +47,7 @@ export default function FirebaseRegisterView() {
     lastName: '',
     email: '',
     password: '',
+    username: '',
   };
 
   const methods = useForm({
@@ -144,6 +146,7 @@ export default function FirebaseRegisterView() {
       </Stack>
 
       <RHFTextField name="email" label="Email address" />
+      <RHFTextField name="username" label="Username" />
 
       <RHFTextField
         name="password"

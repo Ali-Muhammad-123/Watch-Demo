@@ -5,6 +5,7 @@ import { GuestGuard } from 'src/auth/guard';
 import CompactLayout from 'src/layouts/compact';
 import AuthClassicLayout from 'src/layouts/auth/classic';
 import AuthModernCompactLayout from 'src/layouts/auth/modern-compact';
+import ModernNewPasswordPage from 'src/pages/auth-demo/modern/new-password';
 
 import { SplashScreen } from 'src/components/loading-screen';
 
@@ -20,7 +21,6 @@ const JwtRegisterPage = lazy(() => import('src/pages/auth/jwt/register'));
 const FirebaseLoginPage = lazy(() => import('src/pages/auth/firebase/login'));
 const FirebaseRegisterPage = lazy(() => import('src/pages/auth/firebase/register'));
 const FirebaseVerifyPage = lazy(() => import('src/pages/auth/firebase/verify'));
-const FirebaseForgotPasswordPage = lazy(() => import('src/pages/auth/firebase/forgot-password'));
 
 // SUPABASE
 const SupabaseLoginPage = lazy(() => import('src/pages/auth/supabase/login'));
@@ -98,7 +98,7 @@ const authFirebase = {
       ),
       children: [
         { path: 'verify', element: <FirebaseVerifyPage /> },
-        { path: 'forgot-password', element: <FirebaseForgotPasswordPage /> },
+        { path: 'forgot-password', element: <ModernNewPasswordPage /> },
       ],
     },
   ],
