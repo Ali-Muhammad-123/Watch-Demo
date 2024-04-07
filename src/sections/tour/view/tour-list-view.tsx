@@ -53,7 +53,7 @@ export default function TourListView() {
 
   const dateError = isAfter(filters.startDate, filters.endDate);
 
-  const [currentTab, setCurrentTab] = useState('all');
+  const [currentTab, setCurrentTab] = useState('active');
 
   const handleChangeTab = useCallback((event: React.SyntheticEvent, newValue: string) => {
     setCurrentTab(newValue);
@@ -204,7 +204,23 @@ export default function TourListView() {
         }}
       /> */}
 
-      <Tabs value={currentTab} onChange={handleChangeTab}>
+      <Stack
+        spacing={2.5}
+        sx={{
+          mb: { xs: 3, md: 5 },
+        }}
+      >
+        {renderFilters}
+
+        {canReset && renderResults}
+      </Stack>
+      <Tabs
+        sx={{
+          mb: { xs: 3, md: 5 },
+        }}
+        value={currentTab}
+        onChange={handleChangeTab}
+      >
         {TABS.map((tab) => (
           <Tab
             key={tab.value}
@@ -219,17 +235,6 @@ export default function TourListView() {
           />
         ))}
       </Tabs>
-      <Stack
-        spacing={2.5}
-        sx={{
-          mt: { xs: 3, md: 5 },
-          mb: { xs: 3, md: 5 },
-        }}
-      >
-        {renderFilters}
-
-        {canReset && renderResults}
-      </Stack>
 
       {notFound && <EmptyContent title="No Data" filled sx={{ py: 10 }} />}
 
