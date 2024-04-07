@@ -63,7 +63,7 @@ export default function Header({ onOpenNav }: Props) {
       >
         <Button onClick={() => navigate('/dashboard')}>Auctions</Button>
         <Button onClick={() => navigate('/dashboard/new')}>Sell a Watch</Button>
-        <Button>How&lsquo;s LiveRare Work?</Button>
+        <Button>How&lsquo;s WatchPlace Work?</Button>
         {/* <LanguagePopover /> */}
 
         {/* <NotificationsPopover /> */}
