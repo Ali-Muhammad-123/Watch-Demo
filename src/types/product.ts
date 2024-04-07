@@ -28,7 +28,7 @@ export type IProductReview = {
   avatarUrl: string;
   isPurchased: boolean;
   attachments?: string[];
-  postedAt: Date;
+  postedAt: string;
 };
 
 export type IProductItem = {
@@ -56,7 +56,7 @@ export type IProductItem = {
   subDescription: string;
   priceSale: number | null;
   reviews: IProductReview[];
-  createdAt: Date;
+  createdAt: string;
   ratings: {
     name: string;
     starCount: number;

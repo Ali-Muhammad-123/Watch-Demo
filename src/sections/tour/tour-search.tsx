@@ -43,7 +43,7 @@ export default function TourSearch({ query, results, onSearch, hrefItem }: Props
 
   return (
     <Autocomplete
-      sx={{ width: { xs: 1, sm: 260 } }}
+      fullWidth
       autoHighlight
       popupIcon={null}
       options={results}

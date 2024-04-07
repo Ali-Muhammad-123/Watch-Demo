@@ -2,11 +2,10 @@ import orderBy from 'lodash/orderBy';
 import { useState, useCallback } from 'react';
 
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
+import { Tab, Tabs } from '@mui/material';
 import Container from '@mui/material/Container';
 
 import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
@@ -15,10 +14,8 @@ import { isAfter, isBetween } from 'src/utils/format-time';
 import { countries } from 'src/assets/data';
 import { _tours, _tourGuides, TOUR_SORT_OPTIONS, TOUR_SERVICE_OPTIONS } from 'src/_mock';
 
-import Iconify from 'src/components/iconify';
 import EmptyContent from 'src/components/empty-content';
 import { useSettingsContext } from 'src/components/settings';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 
 import { ITourItem, ITourFilters, ITourFilterValue } from 'src/types/tour';
 
@@ -56,6 +53,11 @@ export default function TourListView() {
 
   const dateError = isAfter(filters.startDate, filters.endDate);
 
+  const [currentTab, setCurrentTab] = useState('all');
+
+  const handleChangeTab = useCallback((event: React.SyntheticEvent, newValue: string) => {
+    setCurrentTab(newValue);
+  }, []);
   const dataFiltered = applyFilter({
     inputData: _tours,
     filters,
@@ -156,10 +158,28 @@ export default function TourListView() {
       results={dataFiltered.length}
     />
   );
+  const TABS = [
+    {
+      value: 'active',
+      label: 'Active',
+    },
+    {
+      value: 'noReserve',
+      label: 'No Reserve',
+    },
+    {
+      value: 'watching',
+      label: 'Watching',
+    },
+    {
+      value: 'ended',
+      label: 'Ended',
+    },
+  ];
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
-      <CustomBreadcrumbs
+      {/* <CustomBreadcrumbs
         heading="List"
         links={[
           { name: 'Dashboard', href: paths.dashboard.root },
@@ -182,11 +202,27 @@ export default function TourListView() {
         sx={{
           mb: { xs: 3, md: 5 },
         }}
-      />
+      /> */}
 
+      <Tabs value={currentTab} onChange={handleChangeTab}>
+        {TABS.map((tab) => (
+          <Tab
+            key={tab.value}
+            iconPosition="end"
+            value={tab.value}
+            label={tab.label}
+            sx={{
+              '&:not(:last-of-type)': {
+                mr: 3,
+              },
+            }}
+          />
+        ))}
+      </Tabs>
       <Stack
         spacing={2.5}
         sx={{
+          mt: { xs: 3, md: 5 },
           mb: { xs: 3, md: 5 },
         }}
       >

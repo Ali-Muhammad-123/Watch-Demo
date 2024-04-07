@@ -21,7 +21,7 @@ export default function TourList({ tours }: Props) {
 
   const handleView = useCallback(
     (id: string) => {
-      router.push(paths.dashboard.tour.details(id));
+      router.push(`./${id}`);
     },
     [router]
   );

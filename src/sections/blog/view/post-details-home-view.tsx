@@ -59,7 +59,7 @@ export default function PostDetailsHomeView({ title }: Props) {
       />
     </Container>
   );
-
+  console.log(post);
   const renderPost = post && (
     <>
       <PostDetailsHero

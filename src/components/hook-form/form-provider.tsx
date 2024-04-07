@@ -6,12 +6,21 @@ type Props = {
   children: React.ReactNode;
   methods: UseFormReturn<any>;
   onSubmit?: VoidFunction;
+  style?: any;
 };
 
-export default function FormProvider({ children, onSubmit, methods }: Props) {
+export default function FormProvider({ children, onSubmit, methods, style }: Props) {
   return (
     <Form {...methods}>
-      <form onSubmit={onSubmit}>{children}</form>
+      {style ? (
+        <form style={style} onSubmit={onSubmit}>
+          {children}
+        </form>
+      ) : (
+        <form style={style} onSubmit={onSubmit}>
+          {children}
+        </form>
+      )}
     </Form>
   );
 }

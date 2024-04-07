@@ -1,5 +1,5 @@
-import { useEffect, useCallback } from 'react';
 import { useForm, Controller } from 'react-hook-form';
+import { useState, useEffect, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -10,10 +10,12 @@ import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import { formHelperTextClasses } from '@mui/material/FormHelperText';
+import { Dialog, useTheme, TextField, InputAdornment } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
+import { fDate } from 'src/utils/format-time';
 import { fCurrency, fShortenNumber } from 'src/utils/format-number';
 
 import Label from 'src/components/label';
@@ -45,6 +47,8 @@ export default function ProductDetailsSummary({
   ...other
 }: Props) {
   const router = useRouter();
+  const [onClose, SetOnClose] = useState(false);
+  const theme = useTheme();
 
   const {
     id,
@@ -57,6 +61,7 @@ export default function ProductDetailsSummary({
     available,
     priceSale,
     saleLabel,
+    createdAt,
     totalRatings,
     totalReviews,
     inventoryType,
@@ -302,7 +307,7 @@ export default function ProductDetailsSummary({
   const renderLabels = (newLabel.enabled || saleLabel.enabled) && (
     <Stack direction="row" alignItems="center" spacing={1}>
       {newLabel.enabled && <Label color="info">{newLabel.content}</Label>}
-      {saleLabel.enabled && <Label color="error">{saleLabel.content}</Label>}
+      {/* {saleLabel.enabled && <Label color="error">{saleLabel.content}</Label>} */}
     </Stack>
   );
 
@@ -322,36 +327,119 @@ export default function ProductDetailsSummary({
   );
 
   return (
-    <FormProvider methods={methods} onSubmit={onSubmit}>
-      <Stack spacing={3} sx={{ pt: 3 }} {...other}>
+    <FormProvider style={{ height: '100%' }} methods={methods} onSubmit={onSubmit}>
+      <Stack spacing={3} sx={{ pt: 3, height: '100%' }} {...other}>
         <Stack spacing={2} alignItems="flex-start">
           {renderLabels}
 
-          {renderInventoryType}
-
           <Typography variant="h5">{name}</Typography>
-
-          {renderRating}
-
-          {renderPrice}
 
           {renderSubDescription}
         </Stack>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
+        <Stack
+          sx={{ position: 'sticky', top: 80 }}
+          spacing={2}
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems="flex-start"
+        >
+          <Label color="info">
+            <Iconify icon="majesticons:money" color="info" width={18} sx={{ mr: '5px' }} />${price}
+          </Label>
+          <Label color="info">
+            <Iconify icon="tabler:clock-filled" color="info" width={18} sx={{ mr: '5px' }} />
+            {fDate(createdAt)}
+          </Label>
 
-        {renderColorOptions}
-
-        {renderSizeOptions}
-
-        {renderQuantity}
-
-        <Divider sx={{ borderStyle: 'dashed' }} />
-
-        {renderActions}
-
-        {renderShare}
+          <Label color="info">
+            <Iconify
+              icon="fluent:person-add-24-filled"
+              color="info"
+              width={18}
+              sx={{ mr: '5px' }}
+            />
+            {totalReviews}
+          </Label>
+          <Stack
+            direction="row"
+            alignItems="center"
+            onClick={() => {
+              SetOnClose(!onClose);
+            }}
+            sx={{
+              cursor: 'pointer',
+              borderRadius: 0.8,
+              bgcolor: 'grey.800',
+              p: '2px 16px 2px 16px',
+              color: 'common.white',
+              typography: 'caption',
+            }}
+          >
+            Bid
+          </Stack>
+          <Iconify icon="ph:star" color="info" width={18} sx={{ mr: '5px' }} />
+          <Iconify icon="material-symbols:share" color="info" width={18} sx={{ mr: '5px' }} />
+        </Stack>
       </Stack>
+      <Dialog
+        fullWidth
+        maxWidth="xs"
+        open={onClose}
+        onClose={() => SetOnClose(!onClose)}
+        transitionDuration={{
+          enter: theme.transitions.duration.shortest,
+          exit: theme.transitions.duration.shortest - 80,
+        }}
+      >
+        <Typography variant="h6" sx={{ p: '8px 16px 0px 16px' }}>
+          Bid
+        </Typography>
+
+        <Stack spacing={1} sx={{ p: '8px 16px' }}>
+          <Stack direction="row">
+            <Typography variant="h6" textAlign="center" sx={{ p: '16px 0px' }}>
+              {name}
+            </Typography>
+          </Stack>
+          <Divider sx={{ borderStyle: 'dashed' }} />
+          <Stack
+            sx={{ position: 'sticky', top: 80 }}
+            spacing={2}
+            flexDirection="row"
+            justifyContent="flex-start"
+            alignItems="center"
+          >
+            <Typography variant="caption" fontWeight="bold" sx={{ p: '16px 0px' }}>
+              Bid
+            </Typography>
+            <Label color="info">
+              <Iconify icon="majesticons:money" color="info" width={18} sx={{ mr: '5px' }} />$
+              {price}
+            </Label>
+            <Label color="info">
+              <Iconify icon="tabler:clock-filled" color="info" width={18} sx={{ mr: '5px' }} />
+              {fDate(createdAt)}
+            </Label>
+          </Stack>
+          <TextField
+            fullWidth
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="end">
+                  <Iconify icon="mdi:dollar" width={20} />
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          <Typography variant="body1" fontWeight={400} fontSize={12}>
+            Bid $7,550 or more
+          </Typography>
+          <Button variant="contained">Place Bid</Button>
+        </Stack>
+      </Dialog>
     </FormProvider>
   );
 }

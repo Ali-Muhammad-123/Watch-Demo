@@ -19,7 +19,7 @@ type Props = {
   avatarUrl: string;
   message: string;
   tagUser?: string;
-  postedAt: Date;
+  postedAt: string;
   hasReply?: boolean;
 };
 

@@ -1,3 +1,6 @@
+import { useNavigate } from 'react-router';
+
+import { Button } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,13 +16,9 @@ import Logo from 'src/components/logo';
 import SvgColor from 'src/components/svg-color';
 import { useSettingsContext } from 'src/components/settings';
 
-import Searchbar from '../common/searchbar';
 import { NAV, HEADER } from '../config-layout';
-import SettingsButton from '../common/settings-button';
 import AccountPopover from '../common/account-popover';
-import ContactsPopover from '../common/contacts-popover';
-import LanguagePopover from '../common/language-popover';
-import NotificationsPopover from '../common/notifications-popover';
+import SettingsButton from '../common/settings-button';
 
 // ----------------------------------------------------------------------
 
@@ -29,6 +28,7 @@ type Props = {
 
 export default function Header({ onOpenNav }: Props) {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const settings = useSettingsContext();
 
@@ -44,7 +44,7 @@ export default function Header({ onOpenNav }: Props) {
 
   const renderContent = (
     <>
-      {lgUp && isNavHorizontal && <Logo sx={{ mr: 2.5 }} />}
+      <Logo sx={{ mr: 2.5 }} />
 
       {!lgUp && (
         <IconButton onClick={onOpenNav}>
@@ -52,7 +52,7 @@ export default function Header({ onOpenNav }: Props) {
         </IconButton>
       )}
 
-      <Searchbar />
+      {/* <Searchbar /> */}
 
       <Stack
         flexGrow={1}
@@ -61,11 +61,14 @@ export default function Header({ onOpenNav }: Props) {
         justifyContent="flex-end"
         spacing={{ xs: 0.5, sm: 1 }}
       >
-        <LanguagePopover />
+        <Button onClick={() => navigate('/dashboard')}>Auctions</Button>
+        <Button onClick={() => navigate('/dashboard/new')}>Sell a Watch</Button>
+        <Button>How&lsquo;s LiveRare Work?</Button>
+        {/* <LanguagePopover /> */}
 
-        <NotificationsPopover />
+        {/* <NotificationsPopover /> */}
 
-        <ContactsPopover />
+        {/* <ContactsPopover /> */}
 
         <SettingsButton />
 
@@ -78,6 +81,8 @@ export default function Header({ onOpenNav }: Props) {
     <AppBar
       sx={{
         height: HEADER.H_MOBILE,
+        left: '50%',
+        transform: 'translate(-50%)',
         zIndex: theme.zIndex.appBar + 1,
         ...bgBlur({
           color: theme.palette.background.default,

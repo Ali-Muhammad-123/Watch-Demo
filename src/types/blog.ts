@@ -23,7 +23,7 @@ export type IPostComment = {
   name: string;
   avatarUrl: string;
   message: string;
-  postedAt: Date;
+  postedAt: string;
   users: {
     id: string;
     name: string;
@@ -33,7 +33,7 @@ export type IPostComment = {
     id: string;
     userId: string;
     message: string;
-    postedAt: Date;
+    postedAt: string;
     tagUser?: string;
   }[];
 };
